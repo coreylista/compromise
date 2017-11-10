@@ -1,5 +1,5 @@
 const nlp = require('./src/index');
-nlp.verbose('tagger');
+//nlp.verbose('tagger');
 
 const tagSets = {
     Device: {},
@@ -39,6 +39,21 @@ const patterns = {
 };
 nlp.addPatterns(patterns);
 
-var doc = nlp('turn desk lamp on at fifty percent an the lights on in the office');
-let action = doc.match('(#DeviceAction|#DeviceTypeAction)+');
-console.log(action.data());
+var doc = nlp('turn desk lamp on to fifty percent for ten minutes');
+
+let level = doc
+    .values()
+    .toNice()
+    .noDates()
+    .out();
+let delay = doc.match('#Duration+');
+console.log(delay);
+//console.log('Level: ', level, '\nDelay: ', delay);
+/*
+let actions = doc.match('(#DeviceAction|#DeviceTypeAction)');
+
+for (let i = 0; i < actions.length; i++) {
+    console.log(actions.list[i].terms[0].text);
+    console.log(actions.list[i].terms[0].tags);
+}
+*/
